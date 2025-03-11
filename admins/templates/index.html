@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Caretaker Services</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #1cc88a;
+            --dark-color: #5a5c69;
+            --light-color: #f8f9fc;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            min-height: 80vh;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            height: 100%;
+        }
+
+        .feature-icon {
+            background-color: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .cta-section {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: var(--primary-color);
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: var(--dark-color) !important;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin: 15px;
+        }
+
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-links h5 {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .floating-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .category-tabs .nav-link {
+            color: var(--dark-color);
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+
+        .category-tabs .nav-link.active {
+            background-color: var(--primary-color);
+            color: white !important;
+        }
+
+        .bg-light-pattern {
+            background-color: #f8f9fc;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e2e8f0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-home me-2"></i>Home Caretaker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary rounded-pill px-4" href="{% url 'register' %}">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h1 class="display-4 fw-bold mb-4">Professional Care Services at Your Doorstep</h1>
+                    <p class="lead mb-5">Providing compassionate and reliable care services for children, adults,
+                        elderly, and disabled individuals in the comfort of their homes.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Section -->
+    <section class="py-5" id="services">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold"  >Why Choose Our Services?</h2>
+                    <p class="lead text-muted">We provide comprehensive care services with a focus on quality,
+                        reliability, and compassion.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h4 class="fw-bold">Verified Professionals</h4>
+                        <p class="text-muted">All our caretakers undergo rigorous background checks and professional
+                            training.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4 class="fw-bold">24/7 Availability</h4>
+                        <p class="text-muted">Our services are available round the clock to ensure your loved ones
+                            receive care whenever needed.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h4 class="fw-bold">Personalized Care</h4>
+                        <p class="text-muted">We create customized care plans tailored to individual needs and
+                            preferences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold">How It Works</h2>
+                    <p class="lead text-muted">Easy steps to get the care service you need</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 text-center mb-4 mb-md-0">
+                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">1</h3>
+                    </div>
+                    <h4 class="fw-bold">Register</h4>
+                    <p class="text-muted">Create an account and set up your profile</p>
+                </div>
+                <div class="col-md-3 text-center mb-4 mb-md-0">
+                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">2</h3>
+                    </div>
+                    <h4 class="fw-bold">Book Service</h4>
+                    <p class="text-muted">Select the service you need and schedule it</p>
+                </div>
+                <div class="col-md-3 text-center mb-4 mb-md-0">
+                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">3</h3>
+                    </div>
+                    <h4 class="fw-bold">Confirm Details</h4>
+                    <p class="text-muted">Review and confirm your service request</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 80px; height: 80px;">
+                        <h3 class="mb-0">4</h3>
+                    </div>
+                    <h4 class="fw-bold">Receive Care</h4>
+                    <p class="text-muted">Our professional caretaker arrives at your doorstep</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5 bg-light-pattern">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold">What Our Clients Say</h2>
+                    <p class="lead text-muted">Hear from some of our satisfied clients about their experience with our
+                        services</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card text-center">
+                        <h5 class="fw-bold">Sarah Johnson</h5>
+                        <p class="text-muted mb-3">Child Care Services</p>
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p>"The babysitter assigned to my children was amazing! Professional, caring, and my kids loved
+                            her. Will definitely use this service again."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card text-center">
+                        <h5 class="fw-bold">David Thompson</h5>
+                        <p class="text-muted mb-3">Elderly Care</p>
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p>"Finding reliable care for my elderly mother was a challenge until I discovered this service.
+                            The caretakers are compassionate and dependable."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card text-center">
+                        <h5 class="fw-bold">Michelle Garcia</h5>
+                        <p class="text-muted mb-3">Special Needs Care</p>
+                        <div class="mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p>"The special needs care provided for my son has been life-changing. The caretakers are
+                            trained, patient, and create a positive environment."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-4">Ready to Book a Service?</h2>
+                    <p class="lead mb-4">Join thousands of satisfied clients who trust our professional care services
+                    </p>
+                    <a href="#" class="cta-btn btn btn-lg">Get Started Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3 class="text-white mb-4"><i class="fas fa-home me-2"></i>Home Caretaker</h3>
+                    <p class="text-white-50">Providing professional and compassionate care services at your doorstep.
+                        Our mission is to enhance the quality of life for all our clients.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>

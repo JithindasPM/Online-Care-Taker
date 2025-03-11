@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Caretaker Service Provider Dashboard</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+        }
+        
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0 1.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo h2 {
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+        }
+        
+        .menu-item {
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .menu-item.active:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .menu-item i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 1.75rem;
+            color: var(--dark);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--info);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .welcome-banner {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background-image: linear-gradient(to right, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1));
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .welcome-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-text p {
+            color: var(--gray);
+            max-width: 500px;
+        }
+        
+        .book-now-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .book-now-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .stat-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .button {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .button.secondary {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+        }
+        
+        .service-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-img {
+            height: 140px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 3rem;
+        }
+        
+        .service-info {
+            padding: 1.25rem;
+        }
+        
+        .service-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .service-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-info .button {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .bookings-table th,
+        .bookings-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bookings-table th {
+            font-weight: 600;
+            color: var(--gray);
+        }
+        
+        .badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge.primary {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .badge.success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+        
+        .badge.warning {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge.danger {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .action-button.view {
+            background-color: var(--info);
+        }
+        
+        .action-button.cancel {
+            background-color: var(--danger);
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .payment-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        
+        .payment-card:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .payment-card.active {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .payment-card p {
+            font-weight: 500;
+        }
+        
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .review-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .review-agent h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .review-agent p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-text {
+            color: var(--dark);
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+        .menu_a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heart-pulse fa-2x"></i>
+                <h2>Home Caretaker</h2>
+            </div>
+            <div class="menu">
+                <div class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Services</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>My Bookings</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Support</span>
+                </div>
+                <div class="menu-item">
+                    <a class="menu_a" href="{% url 'profile' request.user.id %}">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a class="menu_a" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+            </div>
+            
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h2>Welcome back, {{request.user}}!</h2>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="icon" style="background-color: var(--primary);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>12</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background-color: var(--success);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>48</h3>
+                        <p>Hours of Care</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background-color: var(--warning);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>4.8</h3>
+                        <p>Average Rating</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background-color: var(--danger);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>Favorite Caretakers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Categories -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Our Services</h2>
+                    <button class="button secondary">View All Services</button>
+                </div>
+                <div class="service-categories">
+                    <div class="service-card">
+                        <div class="service-img" style="background-color: rgba(76, 201, 240, 0.1);">
+                            <i class="fas fa-baby" style="color: var(--success);"></i>
+                        </div>
+                        <div class="service-info">
+                            <h3>Child Care</h3>
+                            <p>Professional child care services for all ages</p>
+                            <button class="button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img" style="background-color: rgba(67, 97, 238, 0.1);">
+                            <i class="fas fa-user" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="service-info">
+                            <h3>Adult Care</h3>
+                            <p>Assistance for adults requiring support</p>
+                            <button class="button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img" style="background-color: rgba(248, 150, 30, 0.1);">
+                            <i class="fas fa-walking" style="color: var(--warning);"></i>
+                        </div>
+                        <div class="service-info">
+                            <h3>Elderly Care</h3>
+                            <p>Compassionate care for elderly individuals</p>
+                            <button class="button">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-img" style="background-color: rgba(247, 37, 133, 0.1);">
+                            <i class="fas fa-wheelchair" style="color: var(--danger);"></i>
+                        </div>
+                        <div class="service-info">
+                            <h3>Disabled Care</h3>
+                            <p>Specialized care for individuals with disabilities</p>
+                            <button class="button">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Bookings -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">My Recent Bookings</h2>
+                    <button class="button secondary">View All</button>
+                </div>
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Service</th>
+                            <th>Caretaker</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#BK1038</td>
+                            <td>Elderly Care</td>
+                            <td>Emma Wilson</td>
+                            <td>11 Mar 2025, 10:00 AM</td>
+                            <td><span class="badge primary">Upcoming</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <div class="action-button view">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                    <div class="action-button cancel">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#BK1037</td>
+                            <td>Child Care</td>
+                            <td>Michael Brown</td>
+                            <td>10 Mar 2025, 2:30 PM</td>
+                            <td><span class="badge success">Completed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <div class="action-button view">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#BK1036</td>
+                            <td>Disabled Care</td>
+                            <td>Jennifer Lopez</td>
+                            <td>10 Mar 2025, 9:00 AM</td>
+                            <td><span class="badge success">Completed</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <div class="action-button view">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#BK1035</td>
+                            <td>Adult Care</td>
+                            <td>Robert Johnson</td>
+                            <td>09 Mar 2025, 4:15 PM</td>
+                            <td><span class="badge danger">Cancelled</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <div class="action-button view">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Payment Methods -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Payment Methods</h2>
+                    <button class="button secondary">
+                        <i class="fas fa-plus"></i>
+                        <span>Add New</span>
+                    </button>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-card active">
+                        <div class="payment-icon">
+                            <i class="fab fa-cc-visa"></i>
+                        </div>
+                        <p>Visa ****4582</p>
+                        <span>Default</span>
+                    </div>
+                    <div class="payment-card">
+                        <div class="payment-icon">
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                        <p>MasterCard ****8724</p>
+                    </div>
+                    <div class="payment-card">
+                        <div class="payment-icon">
+                            <i class="fab fa-paypal"></i>
+                        </div>
+                        <p>PayPal</p>
+                    </div>
+                    <div class="payment-card">
+                        <div class="payment-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <p>Add New</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Reviews -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">My Recent Reviews</h2>
+                    <button class="button secondary">Write a Review</button>
+                </div>
+                <div class="reviews-container">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">E</div>
+                            <div class="review-agent">
+                                <h4>Emma Wilson</h4>
+                                <p>Elderly Care Specialist</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">Emma was incredibly professional and caring with my mother. She went above and beyond to ensure her comfort.</p>
+                        <p class="review-date">10 Mar 2025</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">M</div>
+                            <div class="review-agent">
+                                <h4>Michael Brown</h4>
+                                <p>Child Care Specialist</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="review-text">Michael was great with my kids. They loved the activities he planned and were sad to see him go.</p>
+                        <p class="review-date">09 Mar 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
