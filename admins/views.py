@@ -9,10 +9,12 @@ from .forms import CustomLoginForm
 from admins.forms import CustomUserCreationForm
 from admins.forms import CustomLoginForm
 from admins.forms import UserProfile_Form
+from admins.forms import Services_Form
 
 
 from admins.models import UserProfile_Model
 from admins.models import User
+from admins.models import Services_Model
 
 
 class Home(View):
@@ -102,9 +104,14 @@ class Update_UserProfile_View(View):
 
         return render(request, 'profile.html', {'form': form, 'data': data})
 
-class All_provider_View(View):
+class All_Provider_View(View):
     def get(self, request):
-        providers = User.objects.filter(user_type='service_provider') 
+        # Get all active service providers
+        providers = User.objects.filter(
+            user_type='service_provider',
+            userprofile_model__is_active=True
+        ).prefetch_related('provider_services_model_set')
+
         return render(request, 'all_provider.html', {'providers': providers})
 
 
@@ -126,3 +133,55 @@ class ToggleStatusView(View):
         return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 
+class All_User_View(View):
+    def get(self, request):
+        providers = User.objects.filter(user_type='customer') 
+        return render(request, 'all_users.html', {'providers': providers})
+    
+    
+class Add_Service_View(View):
+    template_name = 'services.html'
+
+    def get(self, request):
+        services=Services_Model.objects.all()
+        form = Services_Form()
+        return render(request, self.template_name, {'form': form,'services':services})
+
+    def post(self, request):
+        form = Services_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            form = Services_Form()
+            services=Services_Model.objects.all()
+            # return redirect('service') 
+        return render(request, self.template_name, {'form': form,'services':services})
+    
+class Update_Service_View(View):
+    template_name = 'services.html'
+
+    def get(self, request, *args,**kwargs):
+        id=kwargs.get('pk')
+        data = get_object_or_404(Services_Model, id=id)
+        form = Services_Form(instance=data)
+        services=Services_Model.objects.all()
+        return render(request, self.template_name, {'form': form, 'services': services})
+
+    def post(self, request, *args,**kwargs):
+        id=kwargs.get('pk')
+        data = get_object_or_404(Services_Model, id=id)
+        form = Services_Form(request.POST, instance=data)
+        services=Services_Model.objects.all()
+        if form.is_valid():
+            form.save()
+            return redirect('add_services')
+        return render(request, self.template_name, {'form': form, 'services': services})
+    
+class Delete_Service_View(View):
+    def get(self, request, *args,**kwargs):
+        id=kwargs.get('pk')
+        data = get_object_or_404(Services_Model, id=id)
+        data.delete()
+        return redirect('add_services') 
+
+    
+    

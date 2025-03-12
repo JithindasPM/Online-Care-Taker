@@ -3,7 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
 
-from admins.models import UserProfile_Model
+from admins.models import UserProfile_Model,Services_Model
+from admins.models import Services_Model
+from admins.models import Provider_Services_Model
+
+
 
 class CustomUserCreationForm(UserCreationForm):
     user_type = forms.ChoiceField(
@@ -57,3 +61,15 @@ class UserProfile_Form(forms.ModelForm):
             field.required = True  # Make all fields required by default
         self.fields['profile_picture'].required = False  # Optional field
         self.fields['bio'].required = False  # Optional field
+
+
+class Services_Form(forms.ModelForm):
+    class Meta:
+        model = Services_Model
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Service Name',
+            }),
+        }

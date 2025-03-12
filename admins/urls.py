@@ -24,8 +24,12 @@ from admins.views import CustomLoginView
 from admins.views import RegisterView
 from admins.views import Update_UserProfile_View
 from admins.views import Logout_View
-from admins.views import All_provider_View
+from admins.views import All_Provider_View
 from admins.views import ToggleStatusView
+from admins.views import All_User_View
+from admins.views import Add_Service_View
+from admins.views import Update_Service_View
+from admins.views import Delete_Service_View
 
 
 urlpatterns = [
@@ -35,8 +39,12 @@ urlpatterns = [
     path('register/',RegisterView.as_view(),name='register'),
     path('profile/<int:pk>',Update_UserProfile_View.as_view(),name='profile'),
     path('logout',Logout_View.as_view(),name='logout'),
-    path('all_providers/', All_provider_View.as_view(), name='all_providers'),
+    path('all_providers/', All_Provider_View.as_view(), name='all_providers'),
     path('toggle-status/<int:provider_id>/', ToggleStatusView.as_view(), name='toggle_status'),
+    path('all_users',All_User_View.as_view(),name='all_users'),
+    path('add_services',Add_Service_View.as_view(),name='add_services'),
+    path('update_service/<int:pk>',Update_Service_View.as_view(),name='update_service'),
+    path('delete_service/<int:pk>',Delete_Service_View.as_view(),name='delete_service'),
     
     
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 

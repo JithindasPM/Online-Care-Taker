@@ -17,8 +17,10 @@ Including another URLconf
 from django.urls import path,include
 
 from user.views import User_View
+from user.views import ProvidersByServiceView
+
 
 urlpatterns = [
-    path('user/',User_View.as_view(),name='user')
-    
+    path('user/',User_View.as_view(),name='user'),
+    path('providers/<int:service_id>/', ProvidersByServiceView.as_view(), name='providers_by_service'),
 ]

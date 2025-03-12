@@ -1,0 +1,71 @@
+{% extends 'provider.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row g-4">
+        <!-- Form to Add Provider Service -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center rounded-top-1">
+                    <h2>Add Provider Service</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" novalidate>
+                        {%csrf_token%}
+                        <div class="mb-4">
+                            <label for="id_service" class="form-label fw-bold">Select Service <span
+                                    class="text-danger">*</span></label>
+                            {{ form.service }}
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_description" class="form-label fw-bold">Description <span
+                                    class="text-danger">*</span></label>
+                            {{ form.description }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 shadow-sm">
+                            <i class="bi bi-plus-circle me-2"></i>Save Service
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table to Display Provider's Services -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center rounded-top-1">
+                    <h2>My Services</h2>
+                </div>
+                <div class="card-body">
+                    {% if services %}
+                    <div class="row">
+                        {% for service in services %}
+                        <div class="col-md-12">
+                            <div class="card shadow-sm border-0 rounded-4 h-90">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold text-primary">{{ service.service.name }}</h5>
+                                    <p class="card-text text-muted">{{ service.description|truncatewords:20 }}</p>
+                                    <div class="d-flex gap-4">
+                                        <a href="{% url 'update_provider_service' service.id %}"><i class="bi bi-gear"></i></a>
+                                        <a href="{% url 'delete_provider_service' service.id %}"><i class="bi bi-trash3"></i></a>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <small class="text-muted">Added on {{ service.created_date }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info text-center shadow-sm">
+                        <i class="bi bi-info-circle-fill me-2"></i>No services added yet.
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

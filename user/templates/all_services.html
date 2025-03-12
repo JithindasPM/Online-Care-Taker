@@ -1,0 +1,67 @@
+{% extends 'user.html' %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+{% block content %}
+<div class="header">
+    <h1>All Service Providers</h1>
+    <div class="user-profile">
+        <div class="user-info">Admin</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Service Providers</h2>
+    </div>
+
+    {% if providers %}
+    <div
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+        {% for provider in providers %}
+        <div class="stat-card" style="display: flex; flex-direction: column;">
+            <div class="gap-3" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                {% if provider.provider.userprofile_model.profile_picture %}
+                <img class="ms-3" src="{{ provider.provider.userprofile_model.profile_picture.url }}" alt="Profile Picture"
+                    style="width: 70px; height: 70px; border-radius: 50%; margin-right: 1rem; object-fit: cover; border: 3px solid var(--primary);">
+                {% else %}
+                <div class="ms-3"
+                    style="width: 70px; height: 70px; border-radius: 50%; margin-right: 1rem; background-color: var(--gray); display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fas fa-user"></i>
+                </div>
+                {% endif %}
+
+                <div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">{{ provider.provider.username }}</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 0.25rem;">
+                        <i class="fas fa-envelope" style="width: 20px;"></i> {{ provider.provider.email|default:"No Email" }}
+                    </p>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 0.25rem;">
+                        <i class="fas fa-phone" style="width: 20px;"></i> {{ provider.provider.userprofile_model.phone_number|default:"No Phone" }}
+                    </p>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 0;">
+                        <i class="fas fa-map-marker-alt" style="width: 20px;"></i> {{ provider.provider.userprofile_model.address|default:"No Address" }}
+                    </p>
+
+                    <!-- Display Service -->
+                    <p><strong>Service:</strong> <b>{{ provider.service.name }}</b></p>
+                </div>
+            </div>
+            <a href="{% url 'profile' provider.provider.id %}" class="button d-flex justify-content-center"
+                style="margin-top: auto; text-decoration: none;">
+                <div>
+                    <i class="fas fa-eye"></i>
+                    <span class="">View Details</span>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div style="padding: 2rem; text-align: center; background-color: rgba(72, 149, 239, 0.1); border-radius: 10px; color: var(--info);">
+        <i class="fas fa-info-circle fa-2x" style="margin-bottom: 1rem;"></i>
+        <p>No service providers found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

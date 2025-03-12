@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,24 +17,24 @@
             --dark: #212529;
             --gray: #adb5bd;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f5f5;
             color: var(--dark);
         }
-        
+
         .dashboard {
             display: flex;
             min-height: 100vh;
         }
-        
+
         .sidebar {
             width: 250px;
             background-color: var(--primary);
@@ -44,20 +45,20 @@
             height: 100vh;
             overflow-y: auto;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             padding: 0.5rem 0 1.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 1.5rem;
         }
-        
+
         .logo h2 {
             font-size: 1.5rem;
             margin-left: 0.5rem;
         }
-        
+
         .menu-item {
             padding: 0.75rem 1rem;
             border-radius: 5px;
@@ -67,49 +68,49 @@
             align-items: center;
             transition: background-color 0.3s;
         }
-        
+
         .menu-item.active {
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         .menu-item:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .menu-item.active:hover {
-            background-color: rgba(255,255,255,0.2);
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         .menu-item i {
             margin-right: 0.75rem;
             width: 20px;
             text-align: center;
         }
-        
+
         .main-content {
             flex: 1;
             padding: 1.5rem;
             overflow-y: auto;
         }
-        
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
         }
-        
+
         .header h1 {
             font-size: 1.75rem;
             color: var(--dark);
         }
-        
+
         .user-profile {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -121,12 +122,12 @@
             justify-content: center;
             font-weight: bold;
         }
-        
+
         .notification-bell {
             position: relative;
             cursor: pointer;
         }
-        
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -141,29 +142,29 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .welcome-banner {
             background-color: white;
             border-radius: 10px;
             padding: 2rem;
             margin-bottom: 2rem;
             background-image: linear-gradient(to right, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1));
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .welcome-text h2 {
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .welcome-text p {
             color: var(--gray);
             max-width: 500px;
         }
-        
+
         .book-now-btn {
             padding: 0.75rem 1.5rem;
             background-color: var(--primary);
@@ -177,28 +178,28 @@
             gap: 0.5rem;
             transition: background-color 0.3s;
         }
-        
+
         .book-now-btn:hover {
             background-color: var(--secondary);
         }
-        
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .stat-card {
             background-color: white;
             border-radius: 10px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .stat-card .icon {
             width: 60px;
             height: 60px;
@@ -209,37 +210,37 @@
             color: white;
             font-size: 1.5rem;
         }
-        
+
         .stat-info h3 {
             font-size: 1.75rem;
             margin-bottom: 0.25rem;
         }
-        
+
         .stat-info p {
             color: var(--gray);
             font-size: 0.9rem;
         }
-        
+
         .card {
             background-color: white;
             border-radius: 10px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             margin-bottom: 1.5rem;
         }
-        
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        
+
         .card-title {
             font-size: 1.25rem;
             font-weight: 600;
         }
-        
+
         .button {
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -252,33 +253,33 @@
             align-items: center;
             gap: 0.5rem;
         }
-        
+
         .button.secondary {
             background-color: var(--light);
             color: var(--dark);
             border: 1px solid var(--gray);
         }
-        
+
         .service-categories {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .service-card {
             background-color: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s;
             cursor: pointer;
         }
-        
+
         .service-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .service-img {
             height: 140px;
             background-color: var(--light);
@@ -288,76 +289,76 @@
             color: var(--primary);
             font-size: 3rem;
         }
-        
+
         .service-info {
             padding: 1.25rem;
         }
-        
+
         .service-info h3 {
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
         }
-        
+
         .service-info p {
             color: var(--gray);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
-        
+
         .service-info .button {
             width: 100%;
             justify-content: center;
         }
-        
+
         .bookings-table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         .bookings-table th,
         .bookings-table td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
-        
+
         .bookings-table th {
             font-weight: 600;
             color: var(--gray);
         }
-        
+
         .badge {
             padding: 0.35rem 0.75rem;
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 500;
         }
-        
+
         .badge.primary {
             background-color: rgba(67, 97, 238, 0.1);
             color: var(--primary);
         }
-        
+
         .badge.success {
             background-color: rgba(76, 201, 240, 0.1);
             color: var(--success);
         }
-        
+
         .badge.warning {
             background-color: rgba(248, 150, 30, 0.1);
             color: var(--warning);
         }
-        
+
         .badge.danger {
             background-color: rgba(247, 37, 133, 0.1);
             color: var(--danger);
         }
-        
+
         .action-buttons {
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .action-button {
             width: 30px;
             height: 30px;
@@ -368,47 +369,52 @@
             cursor: pointer;
             color: white;
         }
-        
+
         .action-button.view {
             background-color: var(--info);
         }
-        
+
         .action-button.cancel {
             background-color: var(--danger);
         }
-        
+
         @media (max-width: 768px) {
             .dashboard {
                 flex-direction: column;
             }
-            
+
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
             }
-            
+
             .welcome-banner {
                 flex-direction: column;
                 text-align: center;
                 gap: 1rem;
             }
-            
+
             .stats-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .service-categories {
                 grid-template-columns: 1fr;
             }
         }
-        .menu_a{
+
+        .menu_a {
             text-decoration: none;
             color: white;
+        }
+        .service_a{
+            text-decoration: none;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="dashboard">
         <!-- Sidebar -->
@@ -419,8 +425,9 @@
             </div>
             <div class="menu">
                 <div class="menu-item active">
+                    <a class="menu_a" href="{% url 'user' %}">
                     <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
+                    <span>Dashboard</span></a>
                 </div>
                 <div class="menu-item">
                     <i class="fas fa-hand-holding-heart"></i>
@@ -450,20 +457,21 @@
                 </div>
                 <div class="menu-item">
                     <a class="menu_a" href="{% url 'logout' %}">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span></a>
                 </div>
             </div>
         </div>
-        
+
         <!-- Main Content -->
         <div class="main-content">
+            {% block content %}
             <div class="header">
                 <h1>User Dashboard</h1>
                 <div class="user-profile">
                 </div>
             </div>
-            
+
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-text">
@@ -471,7 +479,7 @@
                     <p>Need a caretaker today? Book a service and get professional assistance for your loved ones.</p>
                 </div>
             </div>
-            
+
             <!-- Stats Cards -->
             <div class="stats-container">
                 <div class="stat-card">
@@ -511,57 +519,65 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Service Categories -->
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Our Services</h2>
-                    <button class="button secondary">View All Services</button>
                 </div>
+
                 <div class="service-categories">
-                    <div class="service-card">
-                        <div class="service-img" style="background-color: rgba(76, 201, 240, 0.1);">
-                            <i class="fas fa-baby" style="color: var(--success);"></i>
+                    <a class="service_a" href="{% url 'providers_by_service' 1 %}">
+                        <div class="service-card">
+                            <div class="service-img" style="background-color: rgba(76, 201, 240, 0.1);">
+                                <i class="fas fa-baby" style="color: var(--success);"></i>
+                            </div>
+                            <div class="service-info">
+                                <h3>Child Care</h3>
+                                <p>Professional child care services for all ages</p>
+                                <button class="button">Book Now</button>
+                            </div>
                         </div>
-                        <div class="service-info">
-                            <h3>Child Care</h3>
-                            <p>Professional child care services for all ages</p>
-                            <button class="button">Book Now</button>
+                    </a>
+                    <a class="service_a" href="{% url 'providers_by_service' 2 %}">
+                        <div class="service-card">
+                            <div class="service-img" style="background-color: rgba(67, 97, 238, 0.1);">
+                                <i class="fas fa-user" style="color: var(--primary);"></i>
+                            </div>
+                            <div class="service-info">
+                                <h3>Adult Care</h3>
+                                <p>Assistance for adults requiring support</p>
+                                <button class="button">Book Now</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-img" style="background-color: rgba(67, 97, 238, 0.1);">
-                            <i class="fas fa-user" style="color: var(--primary);"></i>
+                    </a>
+                    <a class="service_a" href="{% url 'providers_by_service' 3 %}">
+                        <div class="service-card">
+                            <div class="service-img" style="background-color: rgba(248, 150, 30, 0.1);">
+                                <i class="fas fa-walking" style="color: var(--warning);"></i>
+                            </div>
+                            <div class="service-info">
+                                <h3>Elderly Care</h3>
+                                <p>Compassionate care for elderly individuals</p>
+                                <button class="button">Book Now</button>
+                            </div>
                         </div>
-                        <div class="service-info">
-                            <h3>Adult Care</h3>
-                            <p>Assistance for adults requiring support</p>
-                            <button class="button">Book Now</button>
+                    </a>
+                    <a class="service_a" href="{% url 'providers_by_service' 4 %}">
+                        <div class="service-card">
+                            <div class="service-img" style="background-color: rgba(247, 37, 133, 0.1);">
+                                <i class="fas fa-wheelchair" style="color: var(--danger);"></i>
+                            </div>
+                            <div class="service-info">
+                                <h3>Disabled Care</h3>
+                                <p>Specialized care for individuals with disabilities</p>
+                                <button class="button">Book Now</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-img" style="background-color: rgba(248, 150, 30, 0.1);">
-                            <i class="fas fa-walking" style="color: var(--warning);"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Elderly Care</h3>
-                            <p>Compassionate care for elderly individuals</p>
-                            <button class="button">Book Now</button>
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-img" style="background-color: rgba(247, 37, 133, 0.1);">
-                            <i class="fas fa-wheelchair" style="color: var(--danger);"></i>
-                        </div>
-                        <div class="service-info">
-                            <h3>Disabled Care</h3>
-                            <p>Specialized care for individuals with disabilities</p>
-                            <button class="button">Book Now</button>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
-            
+
             <!-- Recent Bookings -->
             <div class="card">
                 <div class="card-header">
@@ -614,7 +630,9 @@
                     </tbody>
                 </table>
             </div>
+            {% endblock %}
         </div>
     </div>
 </body>
+
 </html>
