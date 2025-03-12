@@ -43,14 +43,13 @@
                     </p>
 
                     <!-- Display Service -->
-                    <p><strong>Service:</strong> <b>{{ provider.service.name }}</b></p>
+                    <p><strong>Service:</strong> <b>{{ provider.service.name }} - ₹{{ provider.amount }}</b></p>
                 </div>
             </div>
-            <a href="{% url 'profile' provider.provider.id %}" class="button d-flex justify-content-center"
+            <a href="" class="button d-flex justify-content-center"
                 style="margin-top: auto; text-decoration: none;">
                 <div>
-                    <i class="fas fa-eye"></i>
-                    <span class="">View Details</span>
+                    <span class="">Book Now</span>
                 </div>
             </a>
         </div>

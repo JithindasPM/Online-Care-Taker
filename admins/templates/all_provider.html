@@ -47,7 +47,7 @@
                         {% with provider.provider_services_model_set.all as services %}
                             {% if services %}
                                     {% for service in services %}
-                                    <p style="color: black; font-size: 0.9rem; margin-bottom: 0;"><b>{{ service.service.name }}</b></p>
+                                    <p style="color: black; font-size: 0.9rem; margin-bottom: 0;"><b>{{ service.service.name }} - ₹{{ service.amount }}</b></p>
                                     {% endfor %}
                             {% else %}
                                 No services available.

@@ -45,6 +45,7 @@ class Provider_Services_Model(models.Model):
     provider=models.ForeignKey(User,on_delete=models.CASCADE)
     service=models.ForeignKey(Services_Model,on_delete=models.CASCADE,null=True)
     description=models.TextField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00) 
     created_date=models.DateField(auto_now_add=True)
     updated_date=models.DateField(auto_now=True)
     is_active=models.BooleanField(default=False)

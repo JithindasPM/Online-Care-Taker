@@ -11,16 +11,18 @@
                 </div>
                 <div class="card-body">
                     <form method="POST" novalidate>
-                        {%csrf_token%}
+                        {% csrf_token %}
                         <div class="mb-4">
-                            <label for="id_service" class="form-label fw-bold">Select Service <span
-                                    class="text-danger">*</span></label>
+                            <label for="id_service" class="form-label fw-bold">Select Service <span class="text-danger">*</span></label>
                             {{ form.service }}
                         </div>
                         <div class="mb-4">
-                            <label for="id_description" class="form-label fw-bold">Description <span
-                                    class="text-danger">*</span></label>
+                            <label for="id_description" class="form-label fw-bold">Description <span class="text-danger">*</span></label>
                             {{ form.description }}
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_amount" class="form-label fw-bold">Service Amount (₹) <span class="text-danger">*</span></label>
+                            {{ form.amount }}
                         </div>
                         <button type="submit" class="btn btn-success w-100 shadow-sm">
                             <i class="bi bi-plus-circle me-2"></i>Save Service
@@ -28,6 +30,7 @@
                     </form>
                 </div>
             </div>
+            
         </div>
 
         <!-- Table to Display Provider's Services -->
@@ -45,6 +48,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold text-primary">{{ service.service.name }}</h5>
                                     <p class="card-text text-muted">{{ service.description|truncatewords:20 }}</p>
+                                    <p class="fw-semibold text-success mb-2">Amount: ₹{{ service.amount }}</p>
                                     <div class="d-flex gap-4">
                                         <a href="{% url 'update_provider_service' service.id %}"><i class="bi bi-gear"></i></a>
                                         <a href="{% url 'delete_provider_service' service.id %}"><i class="bi bi-trash3"></i></a>
@@ -62,8 +66,8 @@
                         <i class="bi bi-info-circle-fill me-2"></i>No services added yet.
                     </div>
                     {% endif %}
-
                 </div>
+                
             </div>
         </div>
     </div>
