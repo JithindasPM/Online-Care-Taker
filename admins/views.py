@@ -20,6 +20,7 @@ from admins.models import UserProfile_Model
 from admins.models import User
 from admins.models import Services_Model
 from admins.models import Booking_Model
+from admins.models import Complaint_Model
 
 
 class Home(View):
@@ -141,28 +142,60 @@ class All_Provider_View(View):
         # Get all active service providers
         providers = User.objects.filter(
             user_type='service_provider',
-            userprofile_model__is_active=True
         ).prefetch_related('provider_services_model_set')
 
         return render(request, 'all_provider.html', {'providers': providers})
 
 
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseForbidden
+from django.views import View
+from django.contrib import messages
+
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseForbidden
+
+# class ToggleStatusView(View):
+    
+#     def post(self, request, provider_id):
+#         # Allow only superusers to toggle status
+#         if not request.user.is_superuser:
+#             return HttpResponseForbidden("You are not allowed to perform this action.")
+
+#         # Fetch the profile and toggle status
+#         profile = get_object_or_404(UserProfile_Model, id=provider_id)
+#         profile.is_active = not profile.is_active
+#         profile.save()
+        
+#         return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+
 
 class ToggleStatusView(View):
     
     def post(self, request, provider_id):
-        # Allow only superusers to toggle status
-        if not request.user.is_superuser:
-            return HttpResponseForbidden("You are not allowed to perform this action.")
 
         # Fetch the profile and toggle status
         profile = get_object_or_404(UserProfile_Model, id=provider_id)
         profile.is_active = not profile.is_active
         profile.save()
-        
+
+        # Prepare email content
+        status = "activated" if profile.is_active else "deactivated"
+        subject = "Account Status Update"
+        message = f"Dear {profile.name},\n\nYour account has been {status} by the admin.\n\nRegards,\nAdmin Team"
+        recipient = [profile.email]
+
+        # Send email if the user has an email address
+        if profile.email:
+            try:
+                send_mail(subject, message, None, recipient, fail_silently=False)
+            except Exception as e:
+                messages.error(request, f"Status changed but failed to send email: {e}")
+
         return redirect(request.META.get('HTTP_REFERER', 'home'))
+
 
 
 class All_User_View(View):
@@ -228,6 +261,12 @@ class Booking_Manage_View(View):
             'bookings': bookings,
         }
         return render(request, 'booking_manage.html', context)
-  
 
- 
+
+class Complaint_List_View(View):
+    def get(self, request):
+        complaints = Complaint_Model.objects.all().order_by('-id')
+        context = {
+            'complaints': complaints
+        }
+        return render(request, 'all_complaint.html', context)

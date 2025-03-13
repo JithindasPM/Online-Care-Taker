@@ -22,6 +22,7 @@ from user.views import BookServiceView
 from user.views import PaymentSuccessView
 from user.views import User_Booking_List_View
 from user.views import Booking_Delete_View
+from user.views import Complaint_Register_View
 
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     path('payment/success/', PaymentSuccessView.as_view(), name='payment_success'),
     path('user_bookings/', User_Booking_List_View.as_view(), name='user_bookings'),
     path('booking_delete/<int:pk>/', Booking_Delete_View.as_view(), name='booking_delete'),
+    path('complaint/', Complaint_Register_View.as_view(), name='complaint'),
     
     
 ]

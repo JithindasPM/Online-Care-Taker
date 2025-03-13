@@ -385,10 +385,11 @@
     <div class="dashboard">
         <!-- Sidebar -->
         <div class="sidebar">
+            <a class="menu_a" href="{% url 'home' %}">
             <div class="logo">
                 <i class="fas fa-heart-pulse fa-2x"></i>
-                <h2>Home Caretaker</h2>
-            </div>
+                <h2>CareConnect</h2>
+            </div></a>
             <div class="menu">
                 <a class="menu_a" href="{% url 'admins' %}">
                 <div class="menu-item active">
@@ -416,8 +417,9 @@
                     <span>User Management</span></a>
                 </div>
                 <div class="menu-item">
+                    <a class="menu_a" href="{% url 'complaint_list' %}">
                     <i class="fas fa-comment-alt"></i>
-                    <span>Reviews & Feedback</span>
+                    <span>Reviews & Feedback</span></a>
                 </div>
                 <div class="menu-item">
                     <a class="menu_a" href="{% url 'logout' %}">

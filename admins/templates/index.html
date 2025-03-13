@@ -23,7 +23,11 @@
         }
 
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url('https://img.freepik.com/free-photo/closeup-support-hands_53876-20502.jpg');
+            background-position: center;
+            background-size: cover;
             min-height: 80vh;
             color: white;
             display: flex;
@@ -412,27 +416,53 @@
                     <h2 class="fw-bold mb-4">Ready to Book a Service?</h2>
                     <p class="lead mb-4">Join thousands of satisfied clients who trust our professional care services
                     </p>
-                    <a href="#" class="cta-btn btn btn-lg">Get Started Now</a>
+                    <a href="{% url 'register' %}" class="cta-btn btn btn-lg">Get Started Now</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container text-md-left">
             <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h3 class="text-white mb-4"><i class="fas fa-home me-2"></i>Home Caretaker</h3>
-                    <p class="text-white-50">Providing professional and compassionate care services at your doorstep.
-                        Our mission is to enhance the quality of life for all our clients.</p>
-                    <div class="social-icons mt-4">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <!-- About Section -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-4">Home Caretaker</h5>
+                    <p>Delivering trusted home care services with compassion and professionalism. Your comfort is our priority.</p>
+                </div>
+    
+                <!-- Quick Links -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Services</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">FAQs</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Contact Info -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-4">Contact Us</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Care Street, City, State</p>
+                    <p><i class="fas fa-envelope me-2"></i>info@homecaretaker.com</p>
+                    <p><i class="fas fa-phone me-2"></i>+91 98765 43210</p>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white-50 me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
             </div>
         </div>
+    
+        <!-- Copyright -->
+        <div class="text-center py-3 bg-dark">
+            <p class="mb-0 text-white-50">&copy; 2025 Home Caretaker. All Rights Reserved.</p>
+        </div>
     </footer>
+    </body>
+    </html>

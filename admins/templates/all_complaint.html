@@ -1,0 +1,30 @@
+{% extends 'admin.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5">All Complaints</h2>
+    
+    {% if complaints %}
+        {% for complaint in complaints %}
+            <div class="card mb-4 shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ complaint.title }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Description:</strong> {{ complaint.description }}</p>
+                    <p><strong>User:</strong> {{ complaint.user.username }}</p>
+                    <p><strong>Created Date:</strong> {{ complaint.created_date }}</p>
+                    <p><strong>Phone Number:</strong> 
+                        {{ complaint.user.userprofile_model.phone_number|default:"N/A" }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            No complaints registered.
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -20,7 +20,7 @@ class UserProfile_Model(models.Model):
     age=models.PositiveIntegerField(null=True)
     email=models.EmailField(null=True)
     profile_picture = models.ImageField(upload_to='images', blank=True, null=True)
-    phone_number=models.CharField(max_length=15, null=True)
+    phone_number=models.CharField(max_length=10, null=True)
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     created_date=models.DateField(auto_now_add=True)  
@@ -72,4 +72,8 @@ class Booking_Model(models.Model):
         return f"{self.customer.username} booked {self.service.service.name} with {self.provider.username}"
 
 
-    
+class Complaint_Model(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    created_date=models.DateField(auto_now_add=True)

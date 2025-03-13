@@ -88,11 +88,37 @@ class Delete_Provider_Service_View(View):
 
 
 # views.py
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
+# from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.views import View
+# from django.shortcuts import render, redirect, get_object_or_404
+# from django.contrib import messages
 from admins.models import Booking_Model
+
+# class Provider_Booking_View(LoginRequiredMixin, View):
+#     def get(self, request):
+#         bookings = Booking_Model.objects.filter(provider=request.user).order_by('-created_at')
+#         return render(request, 'provider_booking.html', {'bookings': bookings})
+
+#     def post(self, request):
+#         booking_id = request.POST.get('booking_id')
+#         new_status = request.POST.get('status')
+
+#         booking = get_object_or_404(Booking_Model, id=booking_id, provider=request.user)
+#         booking.status = new_status
+#         booking.save()
+#         messages.success(request, "Booking status updated successfully!")
+#         return redirect('provider_booking')
+
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.views import View
+
+from django.core.mail import send_mail, BadHeaderError
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.views import View
+from django.conf import settings
 
 class Provider_Booking_View(LoginRequiredMixin, View):
     def get(self, request):
@@ -106,5 +132,27 @@ class Provider_Booking_View(LoginRequiredMixin, View):
         booking = get_object_or_404(Booking_Model, id=booking_id, provider=request.user)
         booking.status = new_status
         booking.save()
-        messages.success(request, "Booking status updated successfully!")
+
+        # Check if the customer has an email
+        recipient_email = booking.customer.email or getattr(booking.customer.userprofile_model, 'email', None)
+
+        if recipient_email:
+            subject = "Booking Status Update"
+            message = (
+                f"Hello {booking.customer.username},\n\n"
+                f"Your booking for {booking.booking_date} at {booking.booking_time} "
+                f"has been updated to '{new_status.title()}'.\n\n"
+                "Thank you for choosing our service!"
+            )
+            try:
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient_email])
+                messages.success(request, "Booking status updated successfully and email sent to the user!")
+            except BadHeaderError:
+                messages.error(request, "Invalid header found in the email.")
+            except Exception as e:
+                messages.error(request, f"Failed to send email: {e}")
+        else:
+            messages.warning(request, "Booking status updated, but no email was sent (email not found).")
+
         return redirect('provider_booking')
+

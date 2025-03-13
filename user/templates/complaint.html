@@ -1,0 +1,86 @@
+{% extends 'user.html' %}
+{% block content %}
+
+<style>
+
+    .complaint-form {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .complaint-form input, 
+    .complaint-form textarea {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        padding: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .complaint-form input:focus,
+    .complaint-form textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: #fff;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(135deg, #0056b3, #0096c7);
+    }
+
+    .imgs {
+        background-image: url('https://echo-tech.com/EchoBusV3.0/SystemAssets/Complaint%20MS/89de60f4-26c2-41bf-8a75-703d77665a35_wael-01.png');
+        background-size: cover;
+        background-position: center;
+        height: 360px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        animation: zoomIn 1s ease;
+    }
+
+    @keyframes zoomIn {
+        0% {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #343a40;
+    }
+
+</style>
+
+<h2 class="text-center my-5">Register Your Complaint</h2>
+
+<div class="container complaint-container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <form method="POST" class="complaint-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn submit-btn mt-3">Submit Complaint</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="imgs"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

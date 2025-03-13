@@ -24,10 +24,13 @@
                         <h5 class="card-title text-success">
                             <i class="bi bi-person-circle"></i> Customer: {{ booking.customer.username }}
                         </h5>
-                        <a class="btn btn-outline-dark" href="{% url 'profile' booking.customer.id %}"><b>View</b></a>
+                        <h2></h2>
                     </div>
                     
                     <p class="card-text">
+                        <strong>Email:</strong> {{ booking.customer.email }} <br>
+                        <strong>Place:</strong> {{ booking.customer.userprofile_model.place }} <br>
+                        <strong>Address:</strong> {{ booking.customer.userprofile_model.address }} <br>
                         <strong>Date:</strong> {{ booking.booking_date }} <br>
                         <strong>Time:</strong> {{ booking.booking_time }} <br>
 

@@ -135,3 +135,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 RAZORPAY_KEY_ID = 'rzp_test_AeS3dkcE6SP6Ye'
 RAZORPAY_KEY_SECRET = 'J4yqIso4VqBn3j5WyKVsBVv0'
 
+# settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jithindas2123@gmail.com'
+EMAIL_HOST_PASSWORD = 'cmki vrsq bzro xfgy'  # Use an App Password if 2FA is enabled
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

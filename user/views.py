@@ -5,7 +5,7 @@ from admins.models import Services_Model
 from admins.models import Provider_Services_Model
 from django.contrib import messages
 
-
+from user.forms import ComplaintForm
 
 # Create your views here.
 
@@ -142,3 +142,18 @@ class Booking_Delete_View(LoginRequiredMixin, View):
         booking = get_object_or_404(Booking_Model, id=id)
         booking.delete()
         return redirect('user_bookings')
+    
+    
+class Complaint_Register_View(View):
+    def get(self, request):
+        form = ComplaintForm()
+        return render(request, 'complaint.html', {'form': form})
+
+    def post(self, request):
+        form = ComplaintForm(request.POST)
+        if form.is_valid():
+            complaint = form.save(commit=False)
+            complaint.user = request.user  
+            complaint.save()
+            form = ComplaintForm()
+        return render(request, 'complaint.html', {'form': form})

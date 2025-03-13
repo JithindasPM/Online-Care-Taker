@@ -31,6 +31,7 @@ from admins.views import Add_Service_View
 from admins.views import Update_Service_View
 from admins.views import Delete_Service_View
 from admins.views import Booking_Manage_View
+from admins.views import Complaint_List_View
 
 
 urlpatterns = [
@@ -47,6 +48,8 @@ urlpatterns = [
     path('update_service/<int:pk>',Update_Service_View.as_view(),name='update_service'),
     path('delete_service/<int:pk>',Delete_Service_View.as_view(),name='delete_service'),
     path('manage_bookings/', Booking_Manage_View.as_view(), name='manage_bookings'),
+    path('complaint_list/', Complaint_List_View.as_view(), name='complaint_list'),
+
     
     
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 

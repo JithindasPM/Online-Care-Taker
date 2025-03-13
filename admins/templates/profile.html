@@ -51,7 +51,7 @@
             </div>
             {% endfor %}
 
-            {% if not request.user.is_superuser and request.user.user_type != 'service_provider' %}
+            {% if not request.user.is_superuser %}
             <button type="submit" class="btn btn-primary w-100">Update Profile</button>
             {% endif %}
 
