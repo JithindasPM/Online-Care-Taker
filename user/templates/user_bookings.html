@@ -1,0 +1,45 @@
+{% extends 'user.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5 text-primary">My Bookings</h2>
+
+    {% if bookings %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for booking in bookings %}
+        <div class="col">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body">
+                    <h5 class="card-title text-success">
+                        <i class="bi bi-person-circle"></i> Provider: {{ booking.provider.username }}
+                    </h5>
+                    <p class="card-text">
+                        <strong>Service:</strong> {{ booking.service_name }} <br>
+                        <strong>Date:</strong> {{ booking.booking_date }} <br>
+                        <strong>Time:</strong> {{ booking.booking_time }} <br>
+                        <strong>Amount:</strong> {{ booking.service_amount }} <br>
+                    <div class="d-flex justify-content-between">
+                        <div><strong>Status:</strong>
+                            {% if booking.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif booking.status == 'confirmed' %}
+                            <span class="badge bg-success">Confirmed</span>
+                            {% elif booking.status == 'cancelled' %}
+                            <span class="badge bg-danger">Cancelled</span>
+                            {% endif %}
+                        </div>
+                        {% if booking.status == 'pending' %}
+                        <a class="btn btn-outline-dark" href="{% url 'booking_delete' booking.id %}"><b>Delete</b></a>
+                        {% endif %}
+                    </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No bookings found.</p>
+    {% endif %}
+</div>
+{% endblock %}

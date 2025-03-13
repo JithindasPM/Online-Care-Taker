@@ -23,13 +23,18 @@
 
         <form method="POST" enctype="multipart/form-data" class="border p-4 shadow rounded my-3">
             <div class=" container d-flex justify-content-between my-3 text-center">
+                
+                {% if not request.user.is_superuser and request.user.user_type != 'service_provider' %}
                 <h2 class="text-center">Update Your Profile</h2>
+                {% else %}
+                <h2 class="text-center">Profile Details</h2>
+                {% endif %}
                 {% if request.user.is_superuser %}
                 <a href="{% url 'admins' %}" class="btn btn-secondary mt-1"><b>Back to Home</b></a>
                 {% elif request.user.user_type == 'customer' %}
                 <a href="{% url 'user' %}" class="btn btn-secondary mt-1"><b>Back to Home</b></a>
                 {% elif request.user.user_type == 'service_provider' %}
-                <a href="{% url 'provider' %}" class="btn btn-secondary mt-1"><b>Back to Home</b></a>
+                <a href="{% url 'provider_booking' %}" class="btn btn-secondary mt-1"><b>Back to Home</b></a>
                 {% endif %}
             </div>
             {% csrf_token %}
@@ -46,9 +51,11 @@
             </div>
             {% endfor %}
 
-            {% if not request.user.is_superuser %}
+            {% if not request.user.is_superuser and request.user.user_type != 'service_provider' %}
             <button type="submit" class="btn btn-primary w-100">Update Profile</button>
             {% endif %}
+
+
         </form>
 
 

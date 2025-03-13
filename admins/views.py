@@ -4,6 +4,10 @@ from django.contrib.auth import login,authenticate,logout
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from .forms import CustomLoginForm
+from django.core.paginator import Paginator
+from django.views import View
+from django.shortcuts import render
+from django.utils import timezone
 
 
 from admins.forms import CustomUserCreationForm
@@ -15,6 +19,7 @@ from admins.forms import Services_Form
 from admins.models import UserProfile_Model
 from admins.models import User
 from admins.models import Services_Model
+from admins.models import Booking_Model
 
 
 class Home(View):
@@ -23,8 +28,35 @@ class Home(View):
     
     
 class Admin_View(View):
-    def get(self,request):
-        return render(request,'admin.html')
+    def get(self, request):
+        # Total Customers
+        total_customers = User.objects.filter(user_type='customer').count()
+        
+        # Active Service Providers
+        active_agents = UserProfile_Model.objects.filter(
+            user__user_type='service_provider',
+            is_active=True
+        ).count()
+        
+        # Bookings This Month
+        now = timezone.now()
+        bookings_this_month = Booking_Model.objects.filter(
+            created_at__year=now.year,
+            created_at__month=now.month
+        ).count()
+        
+
+        context = {
+            'total_customers': total_customers,
+            'active_agents': active_agents,
+            'bookings_this_month': bookings_this_month,
+        }
+
+        return render(request, 'admin.html', context)
+    
+# class Admin_View(View):
+#     def get(self,request):
+#         return render(request,'admin.html')
 
 
 class RegisterView(View):
@@ -183,5 +215,19 @@ class Delete_Service_View(View):
         data.delete()
         return redirect('add_services') 
 
-    
-    
+
+class Booking_Manage_View(View):
+    def get(self, request):
+        bookings_list = Booking_Model.objects.all().order_by('-created_at')  
+        
+        paginator = Paginator(bookings_list, 5)  
+        page_number = request.GET.get('page')
+        bookings = paginator.get_page(page_number)
+
+        context = {
+            'bookings': bookings,
+        }
+        return render(request, 'booking_manage.html', context)
+  
+
+ 

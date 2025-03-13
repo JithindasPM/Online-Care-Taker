@@ -5,11 +5,31 @@ from django.contrib import messages
 
 from admins.models import Provider_Services_Model
 from provider.forms import Provider_Services_Form
-# Create your views here.
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum,Q
 
-class Provider_View(View):
-    def get(self,request):
-        return render(request,'provider.html')
+class Provider_View(LoginRequiredMixin, View):
+    def get(self, request):
+        latest_bookings = Booking_Model.objects.filter(
+            Q(customer=request.user) | Q(provider=request.user)
+        ).order_by('-created_at')[:2]
+        
+        bookings = Booking_Model.objects.filter(provider=request.user)
+
+        total_bookings = bookings.count()
+        
+        booking_pending = bookings.filter(status='pending').count()
+        
+        booking_confirmed = bookings.filter(status='confirmed').count()
+
+        context = {
+            'total_bookings': total_bookings,
+            'booking_pending': booking_pending,
+            'booking_confirmed': booking_confirmed,
+            'latest_bookings':latest_bookings
+        }
+        return render(request, 'provider.html', context)
+
     
 
 
@@ -58,12 +78,33 @@ class Delete_Provider_Service_View(View):
         service.delete()
         return redirect('provider_service')
 
-from admins.models import User
-class Delete(View):
-    def get(self, request, *args, **kwargs):
-        id=kwargs.get('pk')
-        service = get_object_or_404(User, id=id)
-        service.delete()
+# from admins.models import User
+# class Delete(View):
+#     def get(self, request, *args, **kwargs):
+#         id=kwargs.get('pk')
+#         service = get_object_or_404(User, id=id)
+#         service.delete()
 
 
 
+# views.py
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from admins.models import Booking_Model
+
+class Provider_Booking_View(LoginRequiredMixin, View):
+    def get(self, request):
+        bookings = Booking_Model.objects.filter(provider=request.user).order_by('-created_at')
+        return render(request, 'provider_booking.html', {'bookings': bookings})
+
+    def post(self, request):
+        booking_id = request.POST.get('booking_id')
+        new_status = request.POST.get('status')
+
+        booking = get_object_or_404(Booking_Model, id=booking_id, provider=request.user)
+        booking.status = new_status
+        booking.save()
+        messages.success(request, "Booking status updated successfully!")
+        return redirect('provider_booking')

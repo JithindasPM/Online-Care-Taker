@@ -17,16 +17,16 @@ Including another URLconf
 from django.urls import path,include
 from provider.views import Provider_View
 from provider.views import Add_Provider_Service_View
-from provider.views import Update_Provider_Service_View
-from provider.views import Delete_Provider_Service_View,Delete
+from provider.views import Update_Provider_Service_View,Provider_Booking_View
+from provider.views import Delete_Provider_Service_View
+from provider.views import Provider_Booking_View
 
 urlpatterns = [
     path('provider/',Provider_View.as_view(),name='provider'),
     path('provider_service/',Add_Provider_Service_View.as_view(),name='provider_service'),
     path('update_provider_service/<int:pk>',Update_Provider_Service_View.as_view(),name='update_provider_service'),
     path('delete_provider_service/<int:pk>',Delete_Provider_Service_View.as_view(),name='delete_provider_service'),
-    path('Delete/<int:pk>',Delete.as_view(),name='Delete'),
-    
+    path('provider_booking',Provider_Booking_View.as_view(),name='provider_booking'),
     
     
 ]

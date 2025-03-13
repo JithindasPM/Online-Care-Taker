@@ -46,7 +46,7 @@
                     <p><strong>Service:</strong> <b>{{ provider.service.name }} - ₹{{ provider.amount }}</b></p>
                 </div>
             </div>
-            <a href="" class="button d-flex justify-content-center"
+            <a href="{% url 'book_service' provider.id %}" class="button d-flex justify-content-center"
                 style="margin-top: auto; text-decoration: none;">
                 <div>
                     <span class="">Book Now</span>

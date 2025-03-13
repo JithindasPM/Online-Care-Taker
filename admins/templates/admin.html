@@ -401,8 +401,9 @@
                     <span>Agent Management</span></a>
                 </div>
                 <div class="menu-item">
+                <a class="menu_a" href="{% url 'manage_bookings' %}">
                     <i class="fas fa-calendar-check"></i>
-                    <span>Booking Management</span>
+                    <span>All Bookings</span></a>
                 </div>
                 <div class="menu-item">
                     <a class="menu_a" href="{% url 'add_services' %}">
@@ -417,14 +418,6 @@
                 <div class="menu-item">
                     <i class="fas fa-comment-alt"></i>
                     <span>Reviews & Feedback</span>
-                </div>
-                <div class="menu-item">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Complaints</span>
-                </div>
-                <div class="menu-item">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reports</span>
                 </div>
                 <div class="menu-item">
                     <a class="menu_a" href="{% url 'logout' %}">
@@ -452,21 +445,21 @@
                     <div class="icon" style="background-color: var(--primary);">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>248</h3>
+                    <h3>{{ total_customers }}</h3>
                     <p>Total Users</p>
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: var(--success);">
                         <i class="fas fa-user-tie"></i>
                     </div>
-                    <h3>42</h3>
-                    <p>Active Agents</p>
+                    <h3>{{ active_agents }}</h3>
+                    <p>Total Providers</p>
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: var(--warning);">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <h3>156</h3>
+                    <h3>{{ bookings_this_month }}</h3>
                     <p>Bookings This Month</p>
                 </div>
                 <div class="stat-card">
@@ -474,7 +467,7 @@
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
                     <h3>8</h3>
-                    <p>Pending Complaints</p>
+                    <p>Complaints in this Month</p>
                 </div>
             </div>
             

@@ -18,9 +18,20 @@ from django.urls import path,include
 
 from user.views import User_View
 from user.views import ProvidersByServiceView
+from user.views import BookServiceView
+from user.views import PaymentSuccessView
+from user.views import User_Booking_List_View
+from user.views import Booking_Delete_View
 
 
 urlpatterns = [
     path('user/',User_View.as_view(),name='user'),
     path('providers/<int:service_id>/', ProvidersByServiceView.as_view(), name='providers_by_service'),
+    path('book/<int:provider_service_id>/', BookServiceView.as_view(), name='book_service'),
+    path('book-service/<int:provider_service_id>/', BookServiceView.as_view(), name='book_service_alt'),
+    path('payment/success/', PaymentSuccessView.as_view(), name='payment_success'),
+    path('user_bookings/', User_Booking_List_View.as_view(), name='user_bookings'),
+    path('booking_delete/<int:pk>/', Booking_Delete_View.as_view(), name='booking_delete'),
+    
+    
 ]

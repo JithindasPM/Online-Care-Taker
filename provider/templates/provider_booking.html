@@ -1,0 +1,58 @@
+{% extends 'provider.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5 text-primary">My Bookings</h2>
+
+    {% if messages %}
+    <div class="mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if bookings %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for booking in bookings %}
+        <div class="col">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title text-success">
+                            <i class="bi bi-person-circle"></i> Customer: {{ booking.customer.username }}
+                        </h5>
+                        <a class="btn btn-outline-dark" href="{% url 'profile' booking.customer.id %}"><b>View</b></a>
+                    </div>
+                    
+                    <p class="card-text">
+                        <strong>Date:</strong> {{ booking.booking_date }} <br>
+                        <strong>Time:</strong> {{ booking.booking_time }} <br>
+
+                        <!-- Status Update Form -->
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <div class="input-group mb-3">
+                                <select name="status" class="form-select" onchange="this.form.submit()">
+                                    <option value="pending" {% if booking.status == 'pending' %}selected{% endif %}>Pending</option>
+                                    <option value="confirmed" {% if booking.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                    <option value="cancelled" {% if booking.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                                </select>
+                            </div>
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No bookings found.</p>
+    {% endif %}
+
+    
+</div>
+{% endblock %}
