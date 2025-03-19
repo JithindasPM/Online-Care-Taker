@@ -69,7 +69,7 @@ class Booking_Model(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.customer.username} booked {self.service.service.name} with {self.provider.username}"
+        return f"{self.customer.username} booked with {self.provider.username}"
 
 
 class Complaint_Model(models.Model):

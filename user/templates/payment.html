@@ -29,21 +29,24 @@
             })
             .then(data => {
                 alert(data.status);
-                if (data.status === "Payment Successful!") {
-                    window.location.href = "{% url 'user' %}"; // Redirect to user page after success
-                } else {
-                    window.location.href = "{% url 'user' %}"; // Redirect even if failed, as per your requirement
-                }
+                window.location.href = "{% url 'user' %}"; // Redirect to user page after success
             })
             .catch(error => {
                 console.error('Error during payment processing:', error);
-                window.location.href = "{% url 'user' %}"; // Redirect on error as well
+                window.location.href = "{% url 'user' %}"; // Redirect on error
             });
         },
         "theme": {
             "color": "#3399cc"
+        },
+        "modal": {
+            "ondismiss": function() {
+                alert("Payment process was not completed. Redirecting to user page.");
+                window.location.href = "{% url 'user' %}"; // Redirect if modal is closed
+            }
         }
     };
+
     var rzp1 = new Razorpay(options);
     rzp1.open();
 </script>

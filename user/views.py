@@ -48,78 +48,70 @@ class ProvidersByServiceView(View):
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 import razorpay
 from admins.models import Provider_Services_Model, Booking_Model
 
-# Razorpay client initialization
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.conf import settings
-import razorpay
 
 # Razorpay client initialization
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-class BookServiceView(LoginRequiredMixin, View):
-    def get(self, request, provider_service_id):
-        provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
-        return render(request, 'booking_form.html', {'provider_service': provider_service})
+# razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-    def post(self, request, provider_service_id):
-        provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
+# class BookServiceView(LoginRequiredMixin, View):
+#     def get(self, request, provider_service_id):
+#         provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
+#         return render(request, 'booking_form.html', {'provider_service': provider_service})
 
-        booking_date = request.POST.get('booking_date')
-        booking_time = request.POST.get('booking_time')
+#     def post(self, request, provider_service_id):
+#         provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
 
-        # Create booking with 'pending' status explicitly (even though it's the default)
-        booking = Booking_Model.objects.create(
-            customer=request.user,
-            provider=provider_service.provider,
-            booking_date=booking_date,
-            booking_time=booking_time,
-            status='pending'  # Explicitly set status to pending
-        )
+#         booking_date = request.POST.get('booking_date')
+#         booking_time = request.POST.get('booking_time')
 
-        # Create Razorpay Order
-        amount = int(provider_service.amount * 100)  # Amount in paisa
-        razorpay_order = razorpay_client.order.create({
-            'amount': amount,
-            'currency': 'INR',
-            'payment_capture': '1'
-        })
+#         # Create booking with 'pending' status explicitly (even though it's the default)
+#         booking = Booking_Model.objects.create(
+#             customer=request.user,
+#             provider=provider_service.provider,
+#             booking_date=booking_date,
+#             booking_time=booking_time,
+#             status='pending'  # Explicitly set status to pending
+#         )
 
-        # Save order and booking IDs in session for verification later
-        request.session['booking_id'] = booking.id
-        request.session['razorpay_order_id'] = razorpay_order['id']
+#         # Create Razorpay Order
+#         amount = int(provider_service.amount * 100)  # Amount in paisa
+#         razorpay_order = razorpay_client.order.create({
+#             'amount': amount,
+#             'currency': 'INR',
+#             'payment_capture': '1'
+#         })
 
-        context = {
-            'order_id': razorpay_order['id'],
-            'amount': amount,
-            'provider_service': provider_service,
-            'razorpay_key': settings.RAZORPAY_KEY_ID,
-            'booking_id': booking.id
-        }
+#         # Save order and booking IDs in session for verification later
+#         request.session['booking_id'] = booking.id
+#         request.session['razorpay_order_id'] = razorpay_order['id']
 
-        return render(request, 'payment.html', context)
+#         context = {
+#             'order_id': razorpay_order['id'],
+#             'amount': amount,
+#             'provider_service': provider_service,
+#             'razorpay_key': settings.RAZORPAY_KEY_ID,
+#             'booking_id': booking.id
+#         }
+
+#         return render(request, 'payment.html', context)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class PaymentSuccessView(View):
-    def post(self, request):
-        booking_id = request.session.get('booking_id')
-        if booking_id:
-            booking = Booking_Model.objects.filter(id=booking_id).first()
-            if booking:
-                booking.save()
-                return redirect('user') 
-        return redirect('user')
+# @method_decorator(csrf_exempt, name='dispatch')
+# class PaymentSuccessView(View):
+#     def post(self, request):
+#         booking_id = request.session.get('booking_id')
+#         if booking_id:
+#             booking = Booking_Model.objects.filter(id=booking_id).first()
+#             if booking:
+#                 booking.save()
+#                 return redirect('user') 
+#         return redirect('user')
 
 class User_Booking_List_View(LoginRequiredMixin, View):
     def get(self, request):
@@ -157,3 +149,76 @@ class Complaint_Register_View(View):
             complaint.save()
             form = ComplaintForm()
         return render(request, 'complaint.html', {'form': form})
+    
+
+razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+class BookServiceView(LoginRequiredMixin, View):
+    def get(self, request, provider_service_id):
+        provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
+        return render(request, 'booking_form.html', {'provider_service': provider_service})
+
+    def post(self, request, provider_service_id):
+        provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
+
+        booking_date = request.POST.get('booking_date')
+        booking_time = request.POST.get('booking_time')
+
+        # Save booking details in session instead of creating a booking record now
+        request.session['provider_service_id'] = provider_service.id
+        request.session['booking_date'] = booking_date
+        request.session['booking_time'] = booking_time
+
+        # Create Razorpay Order
+        amount = int(provider_service.amount * 100)  # Amount in paisa
+        razorpay_order = razorpay_client.order.create({
+            'amount': amount,
+            'currency': 'INR',
+            'payment_capture': '1'
+        })
+
+        context = {
+            'order_id': razorpay_order['id'],
+            'amount': amount,
+            'provider_service': provider_service,
+            'razorpay_key': settings.RAZORPAY_KEY_ID,
+        }
+
+        return render(request, 'payment.html', context)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PaymentSuccessView(View):
+    def post(self, request):
+        try:
+            # Retrieve session data
+            provider_service_id = request.session.get('provider_service_id')
+            booking_date = request.session.get('booking_date')
+            booking_time = request.session.get('booking_time')
+            
+
+            # Create booking only after successful payment verification
+            provider_service = get_object_or_404(Provider_Services_Model, id=provider_service_id)
+            booking = Booking_Model.objects.create(
+                customer=request.user,
+                provider=provider_service.provider,
+                booking_date=booking_date,
+                booking_time=booking_time,
+            )
+
+            # Clear session data
+            del request.session['provider_service_id']
+            del request.session['booking_date']
+            del request.session['booking_time']
+            del request.session['razorpay_order_id']
+
+            messages.success(request, "Booking confirmed successfully!")
+            return redirect('user')
+
+        except Exception as e:
+            messages.error(request, f"Payment processing error: {str(e)}")
+
+        return redirect('user')
+
+
+
