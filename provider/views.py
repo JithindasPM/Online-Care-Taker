@@ -1,11 +1,16 @@
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from admins.models import Booking_Model
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib import messages
+from django.conf import settings
 
 
 from admins.models import Provider_Services_Model
 from provider.forms import Provider_Services_Form
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum,Q
 
 class Provider_View(LoginRequiredMixin, View):
@@ -33,7 +38,7 @@ class Provider_View(LoginRequiredMixin, View):
     
 
 
-class Add_Provider_Service_View(View):
+class Add_Provider_Service_View(LoginRequiredMixin,View):
     template_name = 'provider_service.html'
 
     def get(self, request):
@@ -51,7 +56,7 @@ class Add_Provider_Service_View(View):
         services = Provider_Services_Model.objects.filter(provider=request.user)
         return render(request, self.template_name, {'form': form, 'services': services})
 
-class Update_Provider_Service_View(View):
+class Update_Provider_Service_View(LoginRequiredMixin,View):
     template_name = 'provider_service.html'
 
     def get(self, request, *args, **kwargs):
@@ -71,54 +76,13 @@ class Update_Provider_Service_View(View):
             return redirect('provider_service')
         return render(request, self.template_name, {'form': form,'services':services})
 
-class Delete_Provider_Service_View(View):
+class Delete_Provider_Service_View(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         id=kwargs.get('pk')
         service = get_object_or_404(Provider_Services_Model, id=id)
         service.delete()
         return redirect('provider_service')
 
-# from admins.models import User
-# class Delete(View):
-#     def get(self, request, *args, **kwargs):
-#         id=kwargs.get('pk')
-#         service = get_object_or_404(User, id=id)
-#         service.delete()
-
-
-
-# views.py
-# from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.views import View
-# from django.shortcuts import render, redirect, get_object_or_404
-# from django.contrib import messages
-from admins.models import Booking_Model
-
-# class Provider_Booking_View(LoginRequiredMixin, View):
-#     def get(self, request):
-#         bookings = Booking_Model.objects.filter(provider=request.user).order_by('-created_at')
-#         return render(request, 'provider_booking.html', {'bookings': bookings})
-
-#     def post(self, request):
-#         booking_id = request.POST.get('booking_id')
-#         new_status = request.POST.get('status')
-
-#         booking = get_object_or_404(Booking_Model, id=booking_id, provider=request.user)
-#         booking.status = new_status
-#         booking.save()
-#         messages.success(request, "Booking status updated successfully!")
-#         return redirect('provider_booking')
-
-from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-from django.views import View
-
-from django.core.mail import send_mail, BadHeaderError
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-from django.views import View
-from django.conf import settings
 
 class Provider_Booking_View(LoginRequiredMixin, View):
     def get(self, request):

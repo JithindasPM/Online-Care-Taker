@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render
 from django.utils import timezone
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from admins.forms import CustomUserCreationForm
 from admins.forms import CustomLoginForm
@@ -28,7 +28,7 @@ class Home(View):
         return render(request,'index.html')
     
     
-class Admin_View(View):
+class Admin_View(LoginRequiredMixin,View):
     def get(self, request):
         # Total Customers
         total_customers = User.objects.filter(user_type='customer').count()
@@ -99,11 +99,9 @@ class CustomLoginView(View):
                     messages.error(request, 'Invalid user type.')
             else:
                 messages.error(request, 'Invalid username or password.')
-        else:
-            # Print form errors for debugging
-            print(form.errors)
 
         return render(request, 'login.html', {'form': form})
+    
     
     
 class Logout_View(View):
@@ -111,7 +109,7 @@ class Logout_View(View):
         logout(request)
         return redirect('home') 
     
-class Update_UserProfile_View(View):
+class Update_UserProfile_View(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('pk')
         data = UserProfile_Model.objects.get(id=id)
@@ -136,7 +134,7 @@ class Update_UserProfile_View(View):
 
         return render(request, 'profile.html', {'form': form, 'data': data})
 
-class All_Provider_View(View):
+class All_Provider_View(LoginRequiredMixin,View):
     def get(self, request):
         # Get all active service providers
         providers = User.objects.filter(
@@ -149,29 +147,11 @@ class All_Provider_View(View):
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseForbidden
-from django.views import View
 from django.contrib import messages
 
 from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponseForbidden
 
-# class ToggleStatusView(View):
-    
-#     def post(self, request, provider_id):
-#         # Allow only superusers to toggle status
-#         if not request.user.is_superuser:
-#             return HttpResponseForbidden("You are not allowed to perform this action.")
-
-#         # Fetch the profile and toggle status
-#         profile = get_object_or_404(UserProfile_Model, id=provider_id)
-#         profile.is_active = not profile.is_active
-#         profile.save()
-        
-#         return redirect(request.META.get('HTTP_REFERER', 'home'))
-
-
-
-class ToggleStatusView(View):
+class ToggleStatusView(LoginRequiredMixin,View):
     
     def post(self, request, provider_id):
 
@@ -197,13 +177,13 @@ class ToggleStatusView(View):
 
 
 
-class All_User_View(View):
+class All_User_View(LoginRequiredMixin,View):
     def get(self, request):
         providers = User.objects.filter(user_type='customer') 
         return render(request, 'all_users.html', {'providers': providers})
     
     
-class Add_Service_View(View):
+class Add_Service_View(LoginRequiredMixin,View):
     template_name = 'services.html'
 
     def get(self, request):
@@ -220,7 +200,7 @@ class Add_Service_View(View):
             # return redirect('service') 
         return render(request, self.template_name, {'form': form,'services':services})
     
-class Update_Service_View(View):
+class Update_Service_View(LoginRequiredMixin,View):
     template_name = 'services.html'
 
     def get(self, request, *args,**kwargs):
@@ -240,7 +220,7 @@ class Update_Service_View(View):
             return redirect('add_services')
         return render(request, self.template_name, {'form': form, 'services': services})
     
-class Delete_Service_View(View):
+class Delete_Service_View(LoginRequiredMixin,View):
     def get(self, request, *args,**kwargs):
         id=kwargs.get('pk')
         data = get_object_or_404(Services_Model, id=id)
@@ -248,7 +228,7 @@ class Delete_Service_View(View):
         return redirect('add_services') 
 
 
-class Booking_Manage_View(View):
+class Booking_Manage_View(LoginRequiredMixin,View):
     def get(self, request):
         bookings_list = Booking_Model.objects.all().order_by('-created_at')  
         
@@ -262,7 +242,7 @@ class Booking_Manage_View(View):
         return render(request, 'booking_manage.html', context)
 
 
-class Complaint_List_View(View):
+class Complaint_List_View(LoginRequiredMixin,View):
     def get(self, request):
         complaints = Complaint_Model.objects.all().order_by('-id')
         context = {

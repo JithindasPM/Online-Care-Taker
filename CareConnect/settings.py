@@ -144,3 +144,4 @@ EMAIL_HOST_USER = 'jithindas2123@gmail.com'
 EMAIL_HOST_PASSWORD = 'cmki vrsq bzro xfgy'  # Use an App Password if 2FA is enabled
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+LOGIN_URL = 'login'
