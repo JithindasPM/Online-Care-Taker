@@ -74,4 +74,27 @@ class Services_Form(forms.ModelForm):
             }),
         }
         
+from django import forms
 
+class PasswordResetForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Enter your username',
+        'class': 'form-control'
+    }))
+
+class OTPVerificationForm(forms.Form):
+    otp = forms.CharField(widget=forms.NumberInput(attrs={
+        'placeholder': 'Enter OTP',
+        'class': 'form-control'
+    }))
+
+
+class SetNewPasswordForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Enter new password',
+        'class': 'form-control'
+    }))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm new password',
+        'class': 'form-control'
+    }))

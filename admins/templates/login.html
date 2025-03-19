@@ -5,71 +5,224 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .login-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            position: relative;
+            overflow: hidden;
         }
-        .login-container h2 {
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(37, 117, 252, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .login-container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(106, 17, 203, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .login-header {
             text-align: center;
-            margin-bottom: 20px;
-            color: #4e54c8;
-            font-weight: bold;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .login-header h2 {
+            color: #6a11cb;
+            font-weight: 700;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+            z-index: 1;
         }
         .form-control {
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .form-control:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+        }
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 17px;
+            color: #6a11cb;
+            z-index: 2;
         }
         .btn-login {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            background: #4e54c8;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: #fff;
             border: none;
-            font-weight: bold;
-            transition: background 0.3s;
-            
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+            position: relative;
+            z-index: 1;
         }
         .btn-login:hover {
-            background: #3b41b3;
-            color: white;
-            border: 1px solid black;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.6);
+        }
+        .btn-login:active {
+            transform: translateY(0);
         }
         .error-message {
-            color: red;
+            color: #dc3545;
             font-size: 14px;
+            margin-top: 5px;
             margin-bottom: 10px;
+        }
+        .links-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .links-container a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .links-container a:hover {
+            color: #2575fc;
+            text-decoration: underline;
         }
         .signup-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            position: relative;
+            z-index: 1;
         }
         .signup-link a {
-            color: #4e54c8;
+            color: #6a11cb;
+            font-weight: 600;
             text-decoration: none;
+            transition: all 0.3s;
         }
         .signup-link a:hover {
-            text-decoration: underline;
+            color: #2575fc;
+        }
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .social-login {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .social-btn.facebook {
+            background: #3b5998;
+        }
+        .social-btn.google {
+            background: #db4437;
+        }
+        .social-btn.linkedin {
+            background: #0077b5;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .or-divider {
+            text-align: center;
+            position: relative;
+            margin: 20px 0;
+            z-index: 1;
+        }
+        .or-divider span {
+            display: inline-block;
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            position: relative;
+            z-index: 2;
+        }
+        .or-divider:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #eee;
+            z-index: 1;
+        }
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h2>Login</h2>
+    <div class="login-header">
+        <h2>Welcome Back</h2>
+        <p>Enter your credentials to access your account</p>
+    </div>
 
     {% if messages %}
         {% for message in messages %}
@@ -82,27 +235,35 @@
 
         {{ form.non_field_errors }}
 
-        <div>
-            {{ form.username.label_tag }}
+        <div class="form-group">
+            <i class="fas fa-user form-icon"></i>
             {{ form.username }}
             {% if form.username.errors %}
                 <div class="error-message">{{ form.username.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <div>
-            {{ form.password.label_tag }}
+        <div class="form-group">
+            <i class="fas fa-lock form-icon"></i>
             {{ form.password }}
             {% if form.password.errors %}
                 <div class="error-message">{{ form.password.errors.0 }}</div>
             {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-login">Login</button>
+        <div class="links-container">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-login">Sign In</button>
     </form>
 
     <div class="signup-link">
-        Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+        Don't have an account? <a href="{% url 'register' %}">Create Account</a>
     </div>
 </div>
 

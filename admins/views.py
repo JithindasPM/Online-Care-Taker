@@ -249,3 +249,97 @@ class Complaint_List_View(LoginRequiredMixin,View):
             'complaints': complaints
         }
         return render(request, 'all_complaint.html', context)
+
+import random
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.views import View
+from django.contrib.auth.hashers import make_password
+from .models import User
+from .forms import PasswordResetForm, OTPVerificationForm  # Create this form
+
+class PasswordResetView(View):
+    def get(self, request):
+        form = PasswordResetForm()
+        return render(request, 'password_reset.html', {'form': form})
+
+    def post(self, request):
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+
+            try:
+                user = User.objects.get(username=username)
+                user_obj = UserProfile_Model.objects.get(id=user.id)  # Fetch user email
+                otp = str(random.randint(100000, 999999))  # Generate 6-digit OTP
+                request.session['reset_otp'] = otp  # Store OTP in session
+                request.session['reset_username'] = username  # Store username
+                
+                # Send OTP via email
+                send_mail(
+                    "Password Reset OTP",
+                    f"Your OTP for password reset is {otp}.",
+                    "your-email@example.com",  # Change to your email
+                    [user_obj.email],
+                    fail_silently=False
+                )
+
+                messages.success(request, "OTP sent to your email.")
+                return redirect('otp_verification')  # Redirect to OTP verification page
+
+            except User.DoesNotExist:
+                messages.error(request, "Username not found!")
+
+        return render(request, 'password_reset.html', {'form': form})
+
+
+class OTPVerificationView(View):
+    def get(self, request):
+        form = OTPVerificationForm()
+        return render(request, 'otp_verification.html', {'form': form})
+
+    def post(self, request):
+        form = OTPVerificationForm(request.POST)
+        if form.is_valid():
+            entered_otp = form.cleaned_data.get('otp')
+            stored_otp = request.session.get('reset_otp')
+
+            if entered_otp == stored_otp:
+                messages.success(request, "OTP verified successfully! Now reset your password.")
+                return redirect('set_new_password')  # Redirect to set new password page
+            else:
+                messages.error(request, "Invalid OTP! Please try again.")
+
+        return render(request, 'otp_verification.html', {'form': form})
+
+
+class SetNewPasswordView(View):
+    def get(self, request):
+        return render(request, 'set_new_password.html')
+
+    def post(self, request):
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match!")
+            return render(request, 'set_new_password.html')
+
+        username = request.session.get('reset_username')
+        try:
+            user = User.objects.get(username=username)
+            user.password = make_password(new_password)  # Hash password
+            user.save()
+            del request.session['reset_otp']  # Remove OTP from session
+            del request.session['reset_username']
+            messages.success(request, "Password reset successful! You can now log in.")
+            return redirect('login')
+
+        except User.DoesNotExist:
+            messages.error(request, "User not found!")
+            return redirect('password_reset')
+
+
+
+
