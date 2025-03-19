@@ -46,18 +46,17 @@ class Admin_View(View):
             created_at__month=now.month
         ).count()
         
+        bookings=Booking_Model.objects.all().order_by('-id')[:2]
+        
 
         context = {
             'total_customers': total_customers,
             'active_agents': active_agents,
             'bookings_this_month': bookings_this_month,
+            'bookings':bookings
         }
 
         return render(request, 'admin.html', context)
-    
-# class Admin_View(View):
-#     def get(self,request):
-#         return render(request,'admin.html')
 
 
 class RegisterView(View):
