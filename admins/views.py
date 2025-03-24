@@ -103,9 +103,12 @@ class CustomLoginView(View):
         return render(request, 'login.html', {'form': form})
     
     
-    
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+@method_decorator(never_cache,name='dispatch')
 class Logout_View(View):
     def get(self, request, *args, **kwargs):
+        request.session.flush()
         logout(request)
         return redirect('home') 
     

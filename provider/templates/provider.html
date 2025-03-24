@@ -11,6 +11,7 @@
     <style>
         :root {
             --primary: #4361ee;
+            --primary-light: #4895ef;
             --secondary: #3f37c9;
             --success: #4cc9f0;
             --danger: #f72585;
@@ -19,6 +20,7 @@
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #adb5bd;
+            --gradient: linear-gradient(135deg, #4361ee, #4cc9f0);
         }
 
         * {
@@ -29,7 +31,7 @@
         }
 
         body {
-            background-color: #f5f5f5;
+            background-color: #f5f7ff;
             color: var(--dark);
         }
 
@@ -39,14 +41,16 @@
         }
 
         .sidebar {
-            width: 250px;
-            background-color: var(--primary);
+            width: 280px;
+            background: var(--gradient);
             color: white;
-            padding: 1rem;
+            padding: 1.5rem;
             position: sticky;
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
         }
 
         .logo {
@@ -57,42 +61,57 @@
             margin-bottom: 1.5rem;
         }
 
+        .logo i {
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
         .logo h2 {
             font-size: 1.5rem;
-            margin-left: 0.5rem;
+            margin-left: 0.75rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .menu-item {
             padding: 0.75rem 1rem;
-            border-radius: 5px;
-            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .menu-item.active {
             background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .menu-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-item.active:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
         }
 
         .menu-item i {
             margin-right: 0.75rem;
-            width: 20px;
+            width: 22px;
             text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .menu_a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            font-weight: 500;
         }
 
         .main-content {
             flex: 1;
-            padding: 1.5rem;
+            padding: 2rem;
             overflow-y: auto;
         }
 
@@ -103,133 +122,134 @@
             margin-bottom: 2rem;
         }
 
-        .header h1 {
-            font-size: 1.75rem;
-            color: var(--dark);
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--info);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background-color: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         .welcome-banner {
-            background-color: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            background-image: linear-gradient(to right, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1));
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            background-image: url('/api/placeholder/1200/300');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(67, 97, 238, 0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(76, 201, 240, 0.8));
+            z-index: 1;
+        }
+
+        .welcome-text {
+            position: relative;
+            z-index: 2;
+            color: white;
         }
 
         .welcome-text h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-text p {
-            color: var(--gray);
-            max-width: 500px;
-        }
-
-        .book-now-btn {
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: background-color 0.3s;
-        }
-
-        .book-now-btn:hover {
-            background-color: var(--secondary);
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .stat-card {
             background-color: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card .icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+        }
+
+        .stat-card:nth-child(1)::after {
+            background-color: var(--primary);
+        }
+
+        .stat-card:nth-child(2)::after {
+            background-color: var(--warning);
+        }
+
+        .stat-card:nth-child(3)::after {
+            background-color: var(--success);
+        }
+
+        .stat-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.75rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            font-size: 1.5rem;
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning), #ffba08);
+            color: white;
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success), #90e0ef);
+            color: white;
         }
 
         .stat-info h3 {
-            font-size: 1.75rem;
+            font-size: 2rem;
             margin-bottom: 0.25rem;
+            font-weight: 700;
         }
 
         .stat-info p {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .card {
             background-color: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: none;
         }
 
         .card-header {
@@ -237,55 +257,117 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            padding: 0;
+            background: none;
+            border: none;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .card-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--primary);
+            border-radius: 3px;
         }
 
         .button {
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
             border: none;
-            background-color: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .button.secondary {
             background-color: var(--light);
             color: var(--dark);
-            border: 1px solid var(--gray);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
+        .button.secondary:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
 
         .bookings-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
         .bookings-table th,
         .bookings-table td {
-            padding: 1rem;
+            padding: 1.2rem;
             text-align: left;
-            border-bottom: 1px solid #eee;
+        }
+
+        .bookings-table thead {
+            background-color: rgba(67, 97, 238, 0.05);
         }
 
         .bookings-table th {
             font-weight: 600;
-            color: var(--gray);
+            color: var(--dark);
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .bookings-table th:first-child {
+            border-top-left-radius: 8px;
+            border-left: 1px solid #eee;
+        }
+
+        .bookings-table th:last-child {
+            border-top-right-radius: 8px;
+            border-right: 1px solid #eee;
+        }
+
+        .bookings-table tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+
+        .bookings-table tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+
+        .bookings-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .bookings-table tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .bookings-table td {
+            border-bottom: 1px solid #eee;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
         }
 
         .badge {
-            padding: 0.35rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .badge.primary {
@@ -308,28 +390,20 @@
             color: var(--danger);
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
         }
 
-        .action-button {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
+        .card_a {
+            text-decoration: none;
         }
 
-        .action-button.view {
-            background-color: var(--info);
-        }
-
-        .action-button.cancel {
-            background-color: var(--danger);
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -344,26 +418,16 @@
             }
 
             .welcome-banner {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .welcome-text h2 {
+                font-size: 1.8rem;
             }
 
             .stats-container {
                 grid-template-columns: 1fr;
             }
-
-            .service-categories {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .menu_a {
-            text-decoration: none;
-            color: white;
-        }
-        .card_a{
-            text-decoration: none;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -375,7 +439,7 @@
         <div class="sidebar">
             <div class="logo">
                 <i class="fas fa-heart-pulse fa-2x"></i>
-                <h2>CareConnect</h2>
+                <h2>Care Connect</h2>
             </div>
             <div class="menu">
                 <div class="menu-item active">
@@ -410,31 +474,38 @@
         <!-- Main Content -->
         <div class="main-content">
             {% block content %}
-            <div class="header">
-            </div>
-
             <!-- Welcome Banner -->
             <div class="welcome-banner">
                 <div class="welcome-text">
-                    <h2>Welcome back, {{request.user}}!</h2>
+                    <h2>Welcome back, {{request.user}}! 👋</h2>
+                    <p>Here's your care services overview for today</p>
                 </div>
             </div>
 
             <!-- Stats Cards -->
             <div class="stats-container">
                 <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
                     <div class="stat-info">
                         <h3>{{total_bookings}}</h3>
                         <p>Total Bookings</p>
                     </div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
                     <div class="stat-info">
                         <h3>{{booking_pending}}</h3>
                         <p>Booking Pending</p>
                     </div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
                     <div class="stat-info">
                         <h3>{{booking_confirmed}}</h3>
                         <p>Booking Confirmed</p>
@@ -446,7 +517,10 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">My Recent Bookings</h2>
-                    <a class="button secondary card_a" href="{% url 'provider_booking' %}">View All</a>
+                    <a class="button secondary card_a" href="{% url 'provider_booking' %}">
+                        <i class="fas fa-eye"></i>
+                        View All
+                    </a>
                 </div>
                 <table class="bookings-table">
                     <thead>
@@ -460,13 +534,28 @@
                     <tbody>
                         {% for booking in latest_bookings %}
                         <tr>
-                            <td>{{ booking.customer.username }}</td>
-                            <td>{{ booking.booking_date }}</td>
-                            <td>{{ booking.booking_time }}</td>
-                            <td>{{ booking.status }}</td>
+                            <td><i class="fas fa-user-circle me-2"></i>{{ booking.customer.username }}</td>
+                            <td><i class="fas fa-calendar-day me-2"></i>{{ booking.booking_date }}</td>
+                            <td><i class="fas fa-clock me-2"></i>{{ booking.booking_time }}</td>
+                            <td>
+                                {% if booking.status == 'Pending' %}
+                                <span class="badge warning">{{ booking.status }}</span>
+                                {% elif booking.status == 'Confirmed' %}
+                                <span class="badge success">{{ booking.status }}</span>
+                                {% elif booking.status == 'Completed' %}
+                                <span class="badge primary">{{ booking.status }}</span>
+                                {% else %}
+                                <span class="badge danger">{{ booking.status }}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% empty %}
-                        <li>No recent bookings found.</li>
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <i class="fas fa-calendar-xmark fa-2x mb-3"></i>
+                                <p>No recent bookings found. New appointments will appear here.</p>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>

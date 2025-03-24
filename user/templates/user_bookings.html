@@ -1,45 +1,233 @@
 {% extends 'user.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-5 text-primary">My Bookings</h2>
+<!-- Add this to your CSS or include in a style tag in the head -->
+<style>
+    .booking-card {
+        transition: all 0.3s ease;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border: none;
+    }
+    
+    .booking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .card-banner {
+        height: 8px;
+        width: 100%;
+    }
+    
+    .banner-pending {
+        background: linear-gradient(90deg, #FFC107 0%, #FFDA3A 100%);
+    }
+    
+    .banner-confirmed {
+        background: linear-gradient(90deg, #28a745 0%, #5fd778 100%);
+    }
+    
+    .banner-cancelled {
+        background: linear-gradient(90deg, #dc3545 0%, #f07783 100%);
+    }
+    
+    .avatar-circle {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.5rem;
+    }
+    
+    .service-badge {
+        border-radius: 30px;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .detail-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .detail-row .icon-container {
+        width: 32px;
+        height: 32px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+    
+    .detail-row .icon {
+        font-size: 1rem;
+        color: #6c757d;
+    }
+    
+    .status-badge {
+        padding: 8px 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-action {
+        padding: 8px 20px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    
+    .empty-state-container {
+        background-color: #f8f9fa;
+        border-radius: 16px;
+        padding: 60px 30px;
+    }
+    
+    .page-title {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .page-title:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: #0d6efd;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+    .main{
+        background: linear-gradient(to right,lightgoldenrodyellow, lightgray);
+        border-radius: 12px;
+    }
+</style>
+
+<div class="container my-2 py-5 main">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h2 class="display-5 fw-bold text-primary page-title">My Bookings</h2>
+            <div class="col-lg-6 mx-auto mt-4">
+                <p class="lead text-muted">View and manage all your scheduled appointments</p>
+            </div>
+        </div>
+    </div>
 
     {% if bookings %}
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for booking in bookings %}
         <div class="col">
-            <div class="card shadow-sm border-0 rounded-4">
-                <div class="card-body">
-                    <h5 class="card-title text-success">
-                        <i class="bi bi-person-circle"></i> Provider: {{ booking.provider.username }}
-                    </h5>
-                    <p class="card-text">
-                        <strong>Service:</strong> {{ booking.service_name }} <br>
-                        <strong>Date:</strong> {{ booking.booking_date }} <br>
-                        <strong>Time:</strong> {{ booking.booking_time }} <br>
-                        <strong>Amount:</strong> {{ booking.service_amount }} <br>
-                    <div class="d-flex justify-content-between">
-                        <div><strong>Status:</strong>
+            <div class="card booking-card h-100">
+                <!-- Status Banner -->
+                <div class="card-banner 
+                    {% if booking.status == 'pending' %}banner-pending
+                    {% elif booking.status == 'confirmed' %}banner-confirmed
+                    {% elif booking.status == 'cancelled' %}banner-cancelled{% endif %}">
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Provider Info -->
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="avatar-circle bg-primary bg-opacity-10">
+                            <i class="bi bi-person-circle text-primary"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5 class="fw-bold mb-0">{{ booking.provider.username }}</h5>
+                            <span class="text-muted small">Service Provider</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Name -->
+                    <div class="service-badge mb-4 d-inline-block px-3 py-2 bg-primary bg-opacity-10 text-primary fw-semibold">
+                        {{ booking.service_name }}
+                    </div>
+                    
+                    <!-- Booking Details -->
+                    <div class="booking-details mt-3">
+                        <div class="detail-row">
+                            <div class="icon-container">
+                                <i class="bi bi-calendar-event icon"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Date</div>
+                                <div class="fw-semibold">{{ booking.booking_date }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="icon-container">
+                                <i class="bi bi-clock icon"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Time</div>
+                                <div class="fw-semibold">{{ booking.booking_time }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="icon-container">
+                                <i class="bi bi-currency-dollar icon"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Price</div>
+                                <div class="fw-bold text-primary">{{ booking.service_amount }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer border-0 bg-white p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
                             {% if booking.status == 'pending' %}
-                            <span class="badge bg-warning text-dark">Pending</span>
+                            <span class="status-badge badge rounded-pill bg-warning text-dark">
+                                <i class="bi bi-hourglass-split me-1"></i> Pending
+                            </span>
                             {% elif booking.status == 'confirmed' %}
-                            <span class="badge bg-success">Confirmed</span>
+                            <span class="status-badge badge rounded-pill bg-success">
+                                <i class="bi bi-check-circle me-1"></i> Confirmed
+                            </span>
                             {% elif booking.status == 'cancelled' %}
-                            <span class="badge bg-danger">Cancelled</span>
+                            <span class="status-badge badge rounded-pill bg-danger">
+                                <i class="bi bi-x-circle me-1"></i> Cancelled
+                            </span>
                             {% endif %}
                         </div>
+                        
                         {% if booking.status == 'pending' %}
-                        <a class="btn btn-outline-dark" href="{% url 'booking_delete' booking.id %}"><b>Delete</b></a>
+                        <a class="btn-action btn btn-outline-danger rounded-pill" href="{% url 'booking_delete' booking.id %}">
+                            <i class="bi bi-trash me-1"></i> Cancel
+                        </a>
                         {% endif %}
                     </div>
-                    </p>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="text-center text-muted">No bookings found.</p>
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="empty-state-container text-center">
+                <div class="empty-state mb-4">
+                    <i class="bi bi-calendar-x text-muted" style="font-size: 5rem; opacity: 0.5;"></i>
+                </div>
+                <h3 class="text-muted mb-3">No Bookings Found</h3>
+                <p class="text-muted mb-4">You haven't made any bookings yet. Ready to schedule your first appointment?</p>
+                <a href="{% url 'services' %}" class="btn btn-primary rounded-pill px-4 py-2 btn-lg">
+                    <i class="bi bi-plus-circle me-2"></i> Browse Services
+                </a>
+            </div>
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}
